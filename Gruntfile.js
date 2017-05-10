@@ -55,6 +55,7 @@ module.exports = function(grunt) {
 					'src/modules/vk.js',
 					'src/modules/windows.js',
 					'src/modules/yahoo.js',
+					'src/modules/braincube.js',
 					'src/hello.amd.js',
 					'src/hello.commonjs.js'
 				]
