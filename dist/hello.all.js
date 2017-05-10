@@ -1480,7 +1480,14 @@ hello.utils.extend(hello.utils, {
 				_this.extend(p, a);
 			}
 			catch (e) {
-				console.error('Could not decode state parameter');
+				var stateDecoded = decodeURIComponent(p.state);
+				try {
+					var b = JSON.parse(stateDecoded);
+					_this.extend(p, b);
+				}
+				catch (e) {
+					console.error('Could not decode state parameter');
+				}
 			}
 
 			// Access_token?
@@ -5809,6 +5816,63 @@ if (typeof chrome === 'object' && typeof chrome.identity === 'object' && chrome.
 
 	function yql(q) {
 		return 'https://query.yahooapis.com/v1/yql?q=' + (q + ' limit @{limit|100} offset @{start|0}').replace(/\s/g, '%20') + '&format=json';
+	}
+
+})(hello);
+
+// Braincube
+// Braincube services
+(function(hello) {
+
+	hello.init({
+
+		braincube: {
+			name: 'Braincube',
+
+			oauth: {
+				version: 2,
+				auth: 'https://mybraincube.com/sso-server/vendors/braincube/authorize.jsp'
+			},
+
+			refresh: true,
+
+			scope: {
+				BASE: 'BASE',
+				API: 'API'
+			},
+
+			scope_delim: ' ',
+
+			base: 'https://mybraincube.com/sso-server/ws/oauth2/',
+
+			get: {
+				me: 'me',
+				openSession: 'https://mybraincube.com/sso-server/rest/session/openWithToken'
+			},
+
+			xhr: formatRequest
+		}
+	});
+
+	function formatRequest(p, qs) {
+		// Move the access token from the request body to the request header
+		var token = qs.access_token;
+		delete qs.access_token;
+		p.headers.Authorization = 'Bearer ' + token;
+
+		// Format non-get requests to indicate json body
+		if (p.method !== 'get' && p.data) {
+			p.headers['Content-Type'] = 'application/json';
+			if (typeof (p.data) === 'object') {
+				p.data = JSON.stringify(p.data);
+			}
+		}
+
+		if (p.method === 'put') {
+			p.method = 'patch';
+		}
+
+		return true;
 	}
 
 })(hello);
