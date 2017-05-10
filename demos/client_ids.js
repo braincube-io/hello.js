@@ -92,6 +92,9 @@ var JOINME_CLIENT_ID = {
 	'local.knarly.com': 'e7jmevgbve6uzqvsttf7pb85'
 }[window.location.hostname];
 
+var BRAINCUBE_CLIENT_ID = {
+	'localhost': 'fddee1d8-efbe-3b6c-9aad-b7c00fe3472c'
+}[window.location.hostname];
 
 // To make it a little easier
 var CLIENT_IDS_ALL = {
@@ -108,7 +111,8 @@ var CLIENT_IDS_ALL = {
 	foursquare : FOURSQUARE_CLIENT_ID,
 	github : GITHUB_CLIENT_ID,
 	flickr: FLICKR_CLIENT_ID,
-	vk: VK_CLIENT_ID
+	vk: VK_CLIENT_ID,
+	braincube: BRAINCUBE_CLIENT_ID
 };
 
 
